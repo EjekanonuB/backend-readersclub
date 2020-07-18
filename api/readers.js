@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const readerData = require('../model/readerModel');
+const bcrypt = require('bcryptjs');
 
 router.get('/', (req, res) => {
   readerData
@@ -13,13 +14,16 @@ router.get('/', (req, res) => {
     });
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
+  const saltPassword = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, saltPassword);
+
   const newReader = new readerData({
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: hashedPassword,
     country: req.body.country,
-    profession: req.body.profession
+    profession: req.body.profession,
   });
 
   newReader
@@ -31,4 +35,4 @@ router.post('/register', (req, res) => {
       res.json(error);
     });
 });
-module.exports = router
+module.exports = router;
