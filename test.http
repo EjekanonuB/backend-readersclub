@@ -1,0 +1,10 @@
+POST http://localhost:5000/readers/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "Ogechi",
+    "email": "ogechisamson@aol.com",
+    "password": "whathavskeletone",
+    "country": "Ghana",
+    "profession": "Teacher"
+}
